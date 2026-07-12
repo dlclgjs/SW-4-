@@ -6,7 +6,8 @@ public class HelloBiodome01 {
             return; 
         }
         String fullName = String.join(" ", args);
-        String processedName = fullName.replaceAll("^(.{10}).*", "$1"); // ^(.{10}).* -> 처음부터 10번째 글자까지 그룹 1로 설정. 나머지는 삭제.
+        String processedName = fullName.replaceAll("^(.{10}).*", "$1"); 
+        // ^(.{10}).* -> 처음부터 10번째 글자까지 그룹 1로 설정. 나머지는 삭제.
         System.out.println("반갑습니다, \"" + processedName + "\"님!");
     }
 }

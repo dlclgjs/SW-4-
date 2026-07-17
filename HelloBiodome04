@@ -1,0 +1,97 @@
+package org.example;
+
+public class HelloBiodome04 {
+
+    static final double pi = 3.14;
+    static final double BIONETTI = 0.415;
+
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            System.out.println("입력된 값이 올바르지 않습니다. [온도][습도][산소농도] 순서 대로 숫자 값을 입력해주세요");
+        }
+
+        try {
+            double temp = Double.parseDouble(args[0]);
+            double humidity = Double.parseDouble(args[1]);
+            double oxygen = Double.parseDouble(args[2]);
+
+            System.out.println(temp + " " + humidity + " " + oxygen);
+
+            boolean TempSafe = checkTempRange(temp);
+            boolean HumiditySafe = checkHumidityRange(humidity);
+            boolean OxygenSafe = checkOxygenRange(oxygen);
+
+            if (TempSafe && HumiditySafe && OxygenSafe) {
+                System.out.println("-> 생명의 나무는 안정적인 상태입니다.");
+
+                double H = calculateH(temp, humidity, oxygen);
+                System.out.println("건강지수는 " + H+ "입니다.");
+            } else {
+                if (!TempSafe) {
+                    System.out.println("→ 온도값이 정상 범위를 벗어났습니다. 확인이 필요합니다.");
+                } else if (!HumiditySafe) {
+                    System.out.println("→ 습도값이 정상 범위를 벗어났습니다. 확인이 필요합니다.");
+                } else if (!OxygenSafe) {
+                    System.out.println("→ 산소농도값이 정상 범위를 벗어났습니다. 확인이 필요합니다.");
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("입력된 값이 올바르지 않습니다. [온도][습도][산소농도] 순서 대로 숫자 값을 입력해주세요");
+        }
+    }
+
+    private static boolean checkTempRange(double temp) {
+        return temp >= 10.0 && temp < 27.5;
+    }
+
+    private static boolean checkHumidityRange(double humidity) {
+        return humidity > 40.0 && humidity < 60.0;
+    }
+
+    private static boolean checkOxygenRange(double oxygen) {
+        return oxygen >= 19.5 && oxygen <= 23.5;
+    }
+
+    private static double SQRTHumidity(double humidity) {
+        if (humidity <= 0) return 0;
+
+        double low = 0;
+        double high = humidity < 1 ? 1 : humidity;
+
+        return Recursivecal(low, high, humidity, 0);
+    }
+
+    private static double Recursivecal(double low, double high, double humidity, int count) {
+        if (count >= 30) {
+            return (low + high) / 2;
+        }
+
+        double mid = (low + high) / 2;
+
+        if (mid * mid > humidity) {
+            return Recursivecal(low, mid, humidity, count + 1);
+        } else {
+            return Recursivecal(mid, high, humidity, count + 1);
+        }
+    }
+
+    private static double ABSValue(double rootHumidity, double temperature) {
+        double difference = rootHumidity - temperature;
+
+        if (difference < 0) {
+            return -difference;
+        }
+        return difference;
+    }
+
+    /* 공식: H = μB * |√Humidity - Temperature| + (Oxygen / π²) */
+    private static double calculateH(double temp, double humidity, double oxygen) {
+        double rootHum = SQRTHumidity(humidity);
+        double absVal = ABSValue(rootHum, temp);
+
+        double H = (BIONETTI * absVal) + (oxygen / (pi * pi));
+
+        return (long)(H * 100.0 + 0.5) / 100.0;
+    }
+}

@@ -1,0 +1,64 @@
+package org.example;
+
+public class HelloBiodome03 {
+
+    static final double pi = 3.14;
+    static final double BIONETTI = 0.415;
+
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            System.out.println("입력된 값이 올바르지 않습니다. [온도][습도][산소농도] 순서 대로 숫자 값을 입력해주세요");
+        }
+
+        try {
+            double temp = Double.parseDouble(args[0]);
+            double humidity = Double.parseDouble(args[1]);
+            double oxygen = Double.parseDouble(args[2]);
+
+            double H = calculateH(temp, humidity, oxygen);
+
+            System.out.println(temp +" "+ humidity + " " + oxygen);
+            System.out.println("-> 생명지수 H = " + H);
+
+        } catch (NumberFormatException e) {
+            System.out.println("입력된 값이 올바르지 않습니다. [온도][습도][산소농도] 순서 대로 숫자 값을 입력해주세요");
+        }
+    }
+
+    private static double SQRTHumidity(double humidity) {
+        if (humidity <= 0) return 0;
+
+        double low = 0;
+        double high = humidity < 1 ? 1 : humidity;
+        double mid = 0;
+
+        for (int i = 0; i < 30; i++) {
+            mid = (low + high) / 2;
+            if (mid * mid > humidity) {
+                high = mid;
+            } else {
+                low = mid;
+            }
+        }
+        return mid;
+    }
+
+    private static double ABSValue(double rootHumidity, double temperature) {
+        double difference = rootHumidity - temperature;
+
+        if (difference < 0) {
+            return -difference;
+        }
+        return difference;
+    }
+
+    /* 공식: H = μB * |√Humidity - Temperature| + (Oxygen / π²) */
+    private static double calculateH(double temp, double humidity, double oxygen) {
+        double rootHum = SQRTHumidity(humidity);
+        double absVal = ABSValue(rootHum, temp);
+
+        double H = (BIONETTI * absVal) + (oxygen / (pi * pi)); //생명지수 계산
+
+        return (long)(H * 100.0 + 0.5) / 100.0;  //반올림하여 값 반환
+    }
+}

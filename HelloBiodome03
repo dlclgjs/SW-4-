@@ -1,6 +1,6 @@
 package org.example;
 
-public class HelloBiodome01 {
+public class HelloBiodome03 {
 
     static final double pi = 3.14;
     static final double BIONETTI = 0.415;

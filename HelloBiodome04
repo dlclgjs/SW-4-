@@ -22,7 +22,7 @@ public class HelloBiodome04 {
             boolean OxygenSafe = checkOxygenRange(oxygen);
 
             if (TempSafe && HumiditySafe && OxygenSafe) {
-                System.out.println("-> 생명의 나무는 안정적인 상태입니다.");
+                System.out.print("-> 생명의 나무는 안정적인 상태입니다. ");
 
                 double H = calculateH(temp, humidity, oxygen);
                 System.out.println("건강지수는 " + H+ "입니다.");

@@ -1,0 +1,74 @@
+public class HelloBiodome06 {
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            System.out.println("두 개의 유전자 코드를 입력해주세요.");
+            return;
+        }
+
+        String dna1 = args[0];
+        String dna2 = args[1];
+
+        if (dna1.length() < 4 || dna1.length() > 19 || dna2.length() < 4 || dna2.length() > 19) {
+            System.out.println("유전자 정보는 5자 이상 20자 이하로 입력해주세요.");
+            return;
+        }
+
+        boolean isSame = true;
+        if (dna1.length() != dna2.length()) {
+            isSame = false;
+        } else {
+            int i = 0;
+            while (i < dna1.length()) {
+                if (dna1.charAt(i) != dna2.charAt(i)) {
+                    isSame = false;
+                    break;
+                }
+                i++;
+            }
+        }
+
+        boolean isContained = false;
+        int len1 = dna1.length();
+        int len2 = dna2.length();
+
+        if (len1 <= len2) {
+            int i = 0;
+            while (i <= len2 - len1) {
+                int j = 0;
+                int cnt = 0;
+                while (j < len1) {
+                    if (dna2.charAt(i + j) == dna1.charAt(j)) cnt++;
+                    j++;
+                }
+                if (cnt == len1) {
+                    isContained = true;
+                    break;
+                }
+                i++;
+            }
+        } else {
+            int i = 0;
+            while (i <= len1 - len2) {
+                int j = 0;
+                int cnt = 0;
+                while (j < len2) {
+                    if (dna1.charAt(i + j) == dna2.charAt(j)) cnt++;
+                    j++;
+                }
+                if (cnt == len2) {
+                    isContained = true;
+                    break;
+                }
+                i++;
+            }
+        }
+
+        if (isSame) {
+            System.out.println("동일한 유전자 코드입니다.");
+        } else if (isContained) {
+            System.out.println("부분적으로 포함됩니다.");
+        } else {
+            System.out.println("일치하지 않습니다.");
+        }
+    }
+}

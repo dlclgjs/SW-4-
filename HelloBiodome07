@@ -1,0 +1,69 @@
+package org.example;
+
+public class HelloBiodome07 {
+
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("-> 염기서열이 입력되지 않았습니다.");
+            return;
+        }
+
+        String DNA = "";
+        for (int i = 0; i < args.length; i++) {
+            DNA += args[i];
+
+            if (i != args.length - 1) {
+                DNA += " ";
+            }
+        }
+
+        String finalResult = compressDna(DNA);
+        System.out.println("-> " + finalResult);
+    }
+
+    public static String compressDna(String str) {
+        str = str.toUpperCase(); 
+        String res = "";         
+
+        char before = str.charAt(0); 
+        int cnt = 0;   
+
+        for (int i = 0; i < str.length(); i++) {
+            char current = str.charAt(i);
+
+            if (current != 'C' && current != 'Y' && current != 'J' && current != 'E' && current != 'H' && current != ' ') 
+            {
+                return "염기서열은 C, J, H, E, Y 다섯가지로만 입력됩니다. 확인하고 다시 입력해주세요";
+            }
+
+            if (i == 0) {
+                cnt = 1;
+                continue;
+            }
+
+            if (current == before) {
+                if (current != ' ') {
+                    cnt++;
+                }
+            }
+            else {
+                if (before == ' ') {
+                    res += " ";
+                } else {
+                    res += before + "" + cnt; 
+                }
+
+                before = current;
+                cnt = 1;
+            }
+        }
+
+        if (before == ' ') {
+            res += " ";
+        } else {
+            res += before + "" + cnt;
+        }
+
+        return res;
+    }
+}

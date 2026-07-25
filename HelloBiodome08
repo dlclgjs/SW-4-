@@ -1,0 +1,92 @@
+public class HelloBiodome08 {
+
+    public static final String[] dictionary = {
+            "solution", "problem", "biodome", "thanks", "please",
+            "where", "isn’t", "hello", "there",
+            "this", "help", "tree", "need", "your",
+            "new", "any", "the", "for", "can",
+            "we", "is", "a", "?"
+    }; // 긴 단어 우선 매칭을 위해 미리 정렬한 사전
+
+    public static void main(String[] args) {
+
+        if (args.length == 0) {
+            System.out.println("텍스트를 입력해주세요.");
+            return;
+        }
+
+        String input = String.join(" ", args).trim();
+
+        if (input.length() > 100) {
+            System.out.println("사전에는 최대 100자까지만 입력 가능합니다.");
+            return;
+        }
+
+        String ResultMessage = formatMessage(input, dictionary);
+        System.out.println(ResultMessage);
+    }
+
+    public static String formatMessage(String input, String[] dict) {
+        StringBuilder result = new StringBuilder();
+        StringBuilder unknown = new StringBuilder();
+
+        int i = 0;
+        int len = input.length();
+
+        while (i < len) {
+            boolean matched = false;
+
+            for (int k = 0; k < dict.length; k++) {
+                String word = dict[k];
+
+                if (i + word.length() <= len && input.substring(i, i + word.length()).equals(word)) {
+
+                    if (unknown.length() > 0) {
+                        if (result.length() > 0) {
+                            result.append(" ");
+                        }
+                        result.append(unknown.toString());
+                        unknown.delete(0, unknown.length());
+                    }
+
+                    if (word.equals("?")) {
+                        if (result.length() > 0 && result.charAt(result.length() - 1) == ' ') {
+                            result.delete(result.length() - 1, result.length());
+                        }
+                        result.append("?");
+                    } else {
+                        if (result.length() > 0 && result.charAt(result.length() - 1) != ' ') {
+                            result.append(" ");
+                        }
+                        result.append(word);
+                    }
+
+                    i += word.length();
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched) {
+                unknown.append(input.charAt(i));
+                i++;
+            }
+        }
+
+        if (unknown.length() > 0) {
+            if (result.length() > 0 && result.charAt(result.length() - 1) != ' ') {
+                result.append(" ");
+            }
+            result.append(unknown.toString());
+        }
+
+        if (result.length() > 0) {
+            char lastChar = result.charAt(result.length() - 1);
+            if (lastChar != '?') {
+                result.append(".");
+            }
+        }
+
+        return result.toString();
+    }
+}

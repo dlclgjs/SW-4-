@@ -1,0 +1,44 @@
+public class HelloBiodome09 {
+
+    public static void main(String[] args) {
+
+        if (args.length < 2) {
+            System.out.println("트리의 높이와 사용할 특수 문자를 입력해주세요. (예: 8 & ) ");
+            return;
+        }
+
+        try {
+            int height = Integer.parseInt(args[0]);
+            String centerChar = args[1];
+
+            if (height < 3 || height > 100) {
+                System.out.println("잘못된 입력입니다. 3~100 사이의 숫자를 입력하세요.");
+                return;
+            }
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < height - i - 1; j++) {
+                    System.out.print(" ");
+                }
+
+                for (int k = 0; k < (2 * i + 1); k++) {
+                    if (k == i) {
+                        System.out.print(centerChar);
+                    } else {
+                        System.out.print("*");
+                    }
+                }
+
+                System.out.println();
+            }
+
+            for (int j = 0; j < height - 1; j++) {
+                System.out.print(" ");
+            }
+            System.out.println("|");
+
+        } catch (NumberFormatException e) {
+            System.out.println("잘못된 입력입니다. 첫 번째 인자로는 숫자를 입력하세요.");
+        }
+    }
+}
